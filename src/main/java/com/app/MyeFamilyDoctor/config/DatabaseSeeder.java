@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
 
@@ -21,11 +20,11 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
     private void createRoleIfNotFound(String name) {
-        Role role = roleRepository.findByName(name);
+        Role role = roleRepository.findByName(name)
+                .orElse(null); // Χρησιμοποιήστε orElse(null) για να χειριστείτε το Optional
         if (role == null) {
             role = new Role(name);
             roleRepository.save(role);
         }
     }
 }
-

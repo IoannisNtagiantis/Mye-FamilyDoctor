@@ -4,26 +4,40 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Citizen  {
+public class Citizen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name; // Προσθέστε τα απαραίτητα πεδία
+
+    @NotNull(message = "Το όνομα είναι απαραίτητο")
+    private String name;
+    @NotNull(message = "To Α.Μ.Κ.Α. είναι απαραίτητο")
+    private int amka;
+
+    @NotNull(message = "Το επώνυμο είναι απαραίτητο")
     private String lastName;
+
+    @Email(message = "Μη έγκυρη διεύθυνση email")
     private String email;
+
+    @Min(value = 1, message = "Ο αριθμός των μελών της οικογένειας πρέπει να είναι τουλάχιστον 1")
     private int familyMembers;
+
     private int postalCode;
 
 
-    public Citizen(Long id, String name, String lastName, String email, int familyMembers, int postalCode) {
-        this.id = id;
+    public Citizen(String name, String lastName, String email, int familyMembers, int postalCode, int amka) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.familyMembers = familyMembers;
         this.postalCode = postalCode;
+        this.amka = amka;
     }
 
     public Citizen() {
@@ -52,6 +66,14 @@ public class Citizen  {
 
     public int getPostalCode() {
         return postalCode;
+    }
+
+    public int getAmka() {
+        return amka;
+    }
+
+    public void setAmka(int amka) {
+        this.amka = amka;
     }
 
     public void setId(Long id) {

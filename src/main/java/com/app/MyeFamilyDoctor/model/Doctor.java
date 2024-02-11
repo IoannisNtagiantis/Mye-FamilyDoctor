@@ -4,20 +4,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+
 
 @Entity
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name; // Προσθέστε τα απαραίτητα πεδία
+
+    private String name;
     private String lastName;
+
+    @Email(message = "Μη έγκυρη διεύθυνση email")
     private String email;
+
+    @Min(value = 1, message = "Η χωρητικότητα πρέπει να είναι τουλάχιστον 1")
     private int capacity;
+
     private int postalCode;
 
-    public Doctor(Long id, String name, String lastName, String email, int capacity, int postalCode) {
-        this.id = id;
+    // Κατασκευαστής με παραμέτρους (χωρίς id)
+    public Doctor(String name, String lastName, String email, int capacity, int postalCode) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
