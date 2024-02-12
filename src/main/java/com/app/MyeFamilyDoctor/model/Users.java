@@ -14,6 +14,7 @@ public class Users {
     private String username;
     private String password;
     private String email;
+    private String name;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -76,6 +77,14 @@ public class Users {
     // Convenience method to add roles
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

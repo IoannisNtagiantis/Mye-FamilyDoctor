@@ -1,9 +1,6 @@
 package com.app.MyeFamilyDoctor.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +14,7 @@ public class Citizen {
     @NotNull(message = "Το όνομα είναι απαραίτητο")
     private String name;
     @NotNull(message = "To Α.Μ.Κ.Α. είναι απαραίτητο")
-    private int amka;
+    private String amka;
 
     @NotNull(message = "Το επώνυμο είναι απαραίτητο")
     private String lastName;
@@ -31,7 +28,7 @@ public class Citizen {
     private int postalCode;
 
 
-    public Citizen(String name, String lastName, String email, int familyMembers, int postalCode, int amka) {
+    public Citizen(String name, String lastName, String email, int familyMembers, int postalCode, String amka) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
@@ -42,6 +39,14 @@ public class Citizen {
 
     public Citizen() {
 
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     public Long getId() {
@@ -68,11 +73,11 @@ public class Citizen {
         return postalCode;
     }
 
-    public int getAmka() {
+    public String getAmka() {
         return amka;
     }
 
-    public void setAmka(int amka) {
+    public void setAmka(String amka) {
         this.amka = amka;
     }
 
