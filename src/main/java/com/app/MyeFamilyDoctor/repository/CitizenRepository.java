@@ -11,7 +11,7 @@ public interface CitizenRepository extends JpaRepository<Citizen, Long> {
     // Εδώ μπορείτε να προσθέσετε προσαρμοσμένες μεθόδους ερωτημάτων, αν χρειάζεται.
     List<Citizen> findByEmail(String email);
     List<Citizen> findByPostalCode(int postalCode);
-    List<Citizen> findByAmka(int amka);
+    List<Citizen> findByAmka(String amka);
     Optional<Citizen> findByUserId(Long userId);
 
 }
