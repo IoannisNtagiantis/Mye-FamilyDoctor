@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
-public class Doctor {
+public class Doctor extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,14 +25,19 @@ public class Doctor {
 
     private int postalCode;
 
-    // Κατασκευαστής με παραμέτρους (χωρίς id)
-    public Doctor(String name, String lastName, String email, int capacity, int postalCode) {
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Citizen> citizens = new HashSet<>();
+
+
+
+    public Doctor(String name, String lastName, int capacity, int postalCode) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
         this.capacity = capacity;
         this.postalCode = postalCode;
     }
+
 
     public Doctor() {
 

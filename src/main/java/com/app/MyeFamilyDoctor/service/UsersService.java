@@ -1,5 +1,6 @@
 package com.app.MyeFamilyDoctor.service;
 
+import com.app.MyeFamilyDoctor.dto.LoginDto;
 import com.app.MyeFamilyDoctor.dto.UserUpdateDto;
 import com.app.MyeFamilyDoctor.model.Citizen;
 import com.app.MyeFamilyDoctor.model.Doctor;
@@ -10,9 +11,12 @@ import com.app.MyeFamilyDoctor.repository.DoctorRepository;
 import com.app.MyeFamilyDoctor.repository.RoleRepository;
 import com.app.MyeFamilyDoctor.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.app.MyeFamilyDoctor.dto.UnifiedRegistrationDto;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +38,7 @@ public class UsersService {
 
     @Autowired
     private DoctorRepository doctorRepository;
-
+    @PostMapping("/register")
     public Users registerNewUser(UnifiedRegistrationDto registrationDto) throws Exception {
         // Βασική διαδικασία εγγραφής όπως παραπάνω
         if (usersRepository.findByUsername(registrationDto.getUsername()).isPresent()) {
@@ -92,7 +96,6 @@ public class UsersService {
     public Users updateUserDetails(Long userId, UserUpdateDto userUpdateDto) throws Exception {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new Exception("User not found with id: " + userId));
-        user.setName(userUpdateDto.getName());
         user.setEmail(userUpdateDto.getEmail());
         if (userUpdateDto.getPassword() != null && !userUpdateDto.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
@@ -126,7 +129,27 @@ public class UsersService {
 
         return usersRepository.save(user);
     }
+    @PostMapping("/authenticate")
+    public String authenticateUser(LoginDto loginDto) throws Exception {
+        Users user = usersRepository.findByUsername(loginDto.getUsername())
+                .orElseThrow(() -> new Exception("User not found with username: " + loginDto.getUsername()));
 
+        if(passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            // In a real application, you would return a JWT or some form of token here
+            // For demonstration, we're just returning a simple success message or the user's role
+            return "User authenticated successfully with role: " + user.getRoles().iterator().next().getName();
+        } else {
+            throw new Exception("Invalid password for user: " + loginDto.getUsername());
+        }
+    }
+    public String getCurrentUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getAuthorities() != null) {
+            // Assuming each user has only one role for simplicity
+            return authentication.getAuthorities().iterator().next().getAuthority();
+        }
+        return null; // or throw an exception
+    }
 
 
 }

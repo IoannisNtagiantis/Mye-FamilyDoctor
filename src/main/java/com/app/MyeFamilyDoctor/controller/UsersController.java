@@ -1,5 +1,6 @@
 package com.app.MyeFamilyDoctor.controller;
 
+import com.app.MyeFamilyDoctor.dto.LoginDto;
 import com.app.MyeFamilyDoctor.dto.UnifiedRegistrationDto;
 import com.app.MyeFamilyDoctor.dto.UserUpdateDto;
 import com.app.MyeFamilyDoctor.model.Users;
@@ -28,6 +29,18 @@ public class UsersController {
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    // Add a login method
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
+        try {
+            // Assuming userService.authenticateUser() verifies the user's credentials and returns a JWT or any relevant user information
+            String token = userService.authenticateUser(loginDto);
+            return ResponseEntity.ok().body(token); // Respond with the token or user information
+        } catch (Exception e) {
+            // In case of authentication failure
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
         }
     }
 

@@ -1,7 +1,7 @@
 package com.app.MyeFamilyDoctor.controller;
 
 import com.app.MyeFamilyDoctor.model.AppointmentRequest;
-import com.app.MyeFamilyDoctor.service.AppointmentService;
+import com.app.MyeFamilyDoctor.service.AppointmentRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 public class DoctorController {
 
     @Autowired
-    private AppointmentService appointmentService;
+    private AppointmentRequestService appointmentService;
 
     @GetMapping("/appointments")
     public ResponseEntity<List<AppointmentRequest>> getAppointmentsByDoctor(@RequestParam Long doctorId) {

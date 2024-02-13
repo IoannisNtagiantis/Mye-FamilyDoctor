@@ -5,8 +5,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-public class Citizen {
+public class Citizen extends Users{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,11 +30,15 @@ public class Citizen {
 
     private int postalCode;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
-    public Citizen(String name, String lastName, String email, int familyMembers, int postalCode, String amka) {
+
+
+    public Citizen(String name, String lastName, String amka, int familyMembers, int postalCode) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
         this.familyMembers = familyMembers;
         this.postalCode = postalCode;
         this.amka = amka;

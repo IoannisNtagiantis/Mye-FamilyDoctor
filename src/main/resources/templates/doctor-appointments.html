@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor Appointments</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .appointment {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-right: 10px;
+      text-decoration: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-success {
+      background-color: #28a745;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Appointment Requests</h2>
+  <div th:each="appointment : ${appointments}">
+    <div class="appointment">
+      <p>Date: <span th:text="${appointment.appointmentDateTime}"></span></p>
+      <p>Patient: <span th:text="${appointment.citizen.name} + ' ' + ${appointment.citizen.lastName}"></span></p>
+      <p>Status: <span th:text="${appointment.status}"></span></p>
+      <form th:action="@{/appointments/accept/{id}(id=${appointment.id})}" method="post">
+        <button type="submit" class="btn btn-success">Accept</button>
+      </form>
+      <form th:action="@{/appointments/reject/{id}(id=${appointment.id})}" method="post">
+        <button type="submit" class="btn btn-danger">Reject</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+</style>
+</head>
+

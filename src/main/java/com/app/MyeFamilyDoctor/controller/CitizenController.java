@@ -14,11 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/citizens")
 public class CitizenController {
-
+    @Autowired
+    private AppointmentService appointmentService;
     @Autowired
     private DoctorService doctorService;
     @Autowired
-    private AppointmentService appointmentService;
+
     @GetMapping("/doctors")
     public ResponseEntity<List<Doctor>> findDoctorsByPostalCode(@RequestParam int postalCode) {
         List<Doctor> doctors = doctorService.findDoctorsByPostalCode(postalCode);
@@ -28,6 +29,7 @@ public class CitizenController {
     @PostMapping("/appointments")
     public ResponseEntity<?> createAppointment(@RequestParam Long citizenId, @RequestParam Long doctorId) {
         try {
+
             AppointmentRequest appointmentRequest = appointmentService.createAppointmentRequest(citizenId, doctorId);
             return ResponseEntity.status(HttpStatus.CREATED).body(appointmentRequest);
         } catch (Exception e) {

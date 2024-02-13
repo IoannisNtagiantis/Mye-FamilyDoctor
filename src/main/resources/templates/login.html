@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Σύνδεση</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Σύνδεση</h2>
+  <form action="/authenticate}" method="post">
+    <div class="form-group">
+      <label for="username">Όνομα Χρήστη:</label>
+      <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Κωδικός Πρόσβασης:</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Σύνδεση</button>
+  </form>
+</div>
+
+<!-- Redirect to application form page after successful login -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var success = /*[[${success}]]*/ false; // Variable to check if login was successful
+  if (success) {
+    window.location.href = "/application"; // Redirect to the application form page
+  }
+  /*]]>*/
+</script>
+
+</body>
+</html>

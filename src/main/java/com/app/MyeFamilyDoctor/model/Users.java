@@ -2,7 +2,7 @@ package com.app.MyeFamilyDoctor.model;
 
 
 import jakarta.persistence.*;
-
+import com.app.MyeFamilyDoctor.model.Role;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,23 +14,25 @@ public class Users {
     private String username;
     private String password;
     private String email;
-    private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_roles",
+            name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
 
+
     public Users() {
     }
 
-    public Users(String username, String password, String email) {
+    public Users(String username, String password, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.roles =roles;
     }
 
     // Getters and Setters
@@ -79,12 +81,5 @@ public class Users {
         this.roles.add(role);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 

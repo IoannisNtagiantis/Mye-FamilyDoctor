@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor's Home Page</title>
+  <!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Home Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+  <div class="container mt-5">
+    <h1>Doctor's Home Page</h1>
+
+    <!-- Sample Patient Applications -->
+    <ul class="list-group">
+      <li th:each="application, iterStat : ${applications}" class="list-group-item" th:id="'application_' + ${iterStat.index}">
+        <h2 th:text="${application.name}" th:onclick="'toggleDetails(' + ${iterStat.index} + ')'"></h2>
+        <div th:if="${application.showDetails}" class="patient-details" th:id="'details_' + ${iterStat.index}">
+          <p th:text="'ID of Citizen: ' + ${application.id}"></p>
+          <p th:text="'Local: ' + ${application.local}"></p>
+          <p th:text="'Date Time of Application: ' + ${application.dateTime}"></p>
+          <p th:text="'Status: ' + ${application.status}"></p>
+          <button class="btn btn-success" th:if="${application.status == 'Pending'}">Accept</button>
+          <button class="btn btn-danger" th:if="${application.status == 'Pending'}">Decline</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    function toggleDetails(index) {
+      var details = document.getElementById('details_' + index);
+      if (details.style.display === 'block') {
+        details.style.display = 'none';
+      } else {
+        details.style.display = 'block';
+      }
+    }
+  </script>
